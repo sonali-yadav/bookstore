@@ -5,7 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Welcome to the mystery bookstore!</h1>
-<h2>There are {{ count }} books in stock.</h2>
+    {% if user.is_authenticated %}
+    <h1>Welcome to the mystery bookstore!
+        {% if request.user.first_name %}{{ request.user.first_name }}
+        {% else %}{{ request.user.username }}
+        {% endif %}</h1>
+    <div><a href="{% url 'auth_logout' %}">Log Out</a></div>
+    {% else %}
+    <h1>Welcome to the mystery bookstore!
+        Would you like to <a href="{% url 'auth_login' %}">log in</a>?</h1>
+    {% endif %}
+    <h2>There are {{ count }} books in stock.</h2>
+    <h3>User Location: {{ request.session.location }}</h3>
 </body>
 </html>
